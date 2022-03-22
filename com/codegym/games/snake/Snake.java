@@ -1,14 +1,18 @@
 package com.codegym.games.snake;
 import com.codegym.engine.cell.*;
 import java.util.List;
+import java.time.format.SignStyle;
 import java.util.ArrayList;
 
 public class Snake {
     
-    private List<GameObject> snakeParts = new ArrayList<>();
-    private int initialSize = 3;
     private static final String HEAD_SIGN = "\uD83D\uDC7E";
     private static final String BODY_SIGN = "\u26AB";
+    
+    private List<GameObject> snakeParts = new ArrayList<>();
+    private int size = 3;
+    private Direction direction = Direction.LEFT;
+    public boolean isAlive = true;
     
     public Snake(int x, int y) {
         GameObject first = new GameObject(x, y);
@@ -21,13 +25,20 @@ public class Snake {
     }
     
     public void draw(Game game) {
-        
-        for (int i = 0; i < snakeParts.length; i++) {
-            if (i == 0)
-                game.setCellValue(snakePart.x, snakePart.y, HEAD_SIGN);
-            else
-                game.setCellValue(snakePart.x, snakePart.y, BODY_SIGN);
+        Color snakeColor = (this.isAlive) ? Color.BLACK : Color.RED;
+        String snakeSign;
+
+        for (int i = 0; i < snakeParts.size(); i++) {
+            snakeSign = (i == 0) ? HEAD_SIGN : BODY_SIGN;
+            game.setCellValueEx(snakeParts.get(i).x, snakeParts.get(i).y, Color.NONE, snakeSign, snakeColor, 75);
         }
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+    
+    public void move() {
         
     }
 }
