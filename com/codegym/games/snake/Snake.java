@@ -37,6 +37,23 @@ public class Snake {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
+
+    public GameObject createNewHead() {
+        GameObject oldHead = snakeParts.get(0);
+        if (direction == Direction.LEFT)
+            return new GameObject(oldHead.x - 1, oldHead.y);
+        else if (direction == Direction.RIGHT)
+            return new GameObject(oldHead.x + 1, oldHead.y);
+        else if (direction == Direction.UP)
+            return new GameObject(oldHead.x, oldHead.y - 1);
+        else
+            return new GameObject(oldHead.x, oldHead.y + 1);
+    }
+
+    public void removeTail() {
+        int lastPartIndex = snakeParts.size()-1;
+        snakeParts.remove(lastPartIndex);
+    }
     
     public void move() {
         
