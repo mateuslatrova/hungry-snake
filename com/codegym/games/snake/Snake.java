@@ -30,12 +30,21 @@ public class Snake {
 
         for (int i = 0; i < snakeParts.size(); i++) {
             snakeSign = (i == 0) ? HEAD_SIGN : BODY_SIGN;
-            game.setCellValueEx(snakeParts.get(i).x, snakeParts.get(i).y, Color.NONE, snakeSign, snakeColor, 75);
+            game.setCellValueEx(snakeParts.get(i).x, 
+                                snakeParts.get(i).y, 
+                                Color.NONE,
+                                snakeSign,
+                                snakeColor,
+                                75);
         }
     }
 
     public void setDirection(Direction direction) {
-        this.direction = direction;
+        if (this.direction == Direction.LEFT  && direction != Direction.RIGHT ||
+            this.direction == Direction.RIGHT && direction != Direction.LEFT  ||
+            this.direction == Direction.UP    && direction != Direction.DOWN  ||
+            this.direction == Direction.DOWN  && direction != Direction.UP) 
+            this.direction = direction;
     }
 
     public GameObject createNewHead() {
@@ -56,6 +65,15 @@ public class Snake {
     }
     
     public void move() {
-        
+        GameObject newHead = this.createNewHead();
+        snakeParts.add(0, newHead);
+        this.removeTail();
+
+        // Check boundaries:
+        if (newHead.x < 0                || 
+            newHead.x >= SnakeGame.WIDTH || 
+            newHead.y < 0                || 
+            newHead.y >= SnakeGame.HEIGHT )
+            this.isAlive = false;
     }
 }
